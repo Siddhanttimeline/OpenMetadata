@@ -8413,10 +8413,15 @@ public interface CollectionDAO {
     @ConnectionAwareSqlUpdate(
         value =
             "DELETE FROM automations_workflow "
-                + "WHERE workflowType = 'REVERSE_INGESTION' "
-                + "AND status IN ('Successful', 'Failed') "
-                + "AND updatedAt < :cutoffTs "
-                + "ORDER BY updatedAt LIMIT :limit",
+                + "WHERE id IN ( "
+                + "  SELECT id FROM ( "
+                + "    SELECT id FROM automations_workflow "
+                + "    WHERE workflowType = 'REVERSE_INGESTION' "
+                + "    AND status IN ('Successful', 'Failed') "
+                + "    AND updatedAt < :cutoffTs "
+                + "    ORDER BY updatedAt LIMIT :limit "
+                + "  ) AS sub "
+                + ")",
         connectionType = MYSQL)
     @ConnectionAwareSqlUpdate(
         value =
