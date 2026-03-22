@@ -101,7 +101,7 @@ test.describe('User with different Roles', () => {
       await adminPage.getByTestId('edit-teams-button').click();
       await teamsListResponse;
 
-      await adminPage.waitForSelector('.ant-tree-select-dropdown', {
+      await adminPage.locator('.ant-tree-select-dropdown').waitFor({
         state: 'visible',
       });
 
@@ -131,7 +131,7 @@ test.describe('User with different Roles', () => {
 
     await expect(adminPage.getByTestId('team-select')).toBeVisible();
 
-    await adminPage.waitForSelector('.ant-tree-select-dropdown', {
+    await adminPage.locator('.ant-tree-select-dropdown').waitFor({
       state: 'visible',
     });
 
@@ -152,7 +152,6 @@ test.describe('User with different Roles', () => {
     );
 
     await adminPage.getByText(team.responseData.displayName).first().click();
-
 
     const domainResponse = adminPage.waitForResponse((response) =>
       response.url().includes('/api/v1/domains/hierarchy')
@@ -195,7 +194,6 @@ test.describe('User with different Roles', () => {
 
     await visitUserProfilePage(adminPage, user3.getUserName());
 
-
     // Wait for the team to be visible in the teams section
     await adminPage
       .getByTestId('loader')
@@ -225,7 +223,7 @@ test.describe('User with different Roles', () => {
 
     await teamsListResponse;
 
-    await adminPage.waitForSelector('.ant-tree-select-dropdown', {
+    await adminPage.locator('.ant-tree-select-dropdown').waitFor({
       state: 'visible',
     });
 
@@ -238,6 +236,7 @@ test.describe('User with different Roles', () => {
       response.url().includes('/api/v1/users/')
     );
 
+    // eslint-disable-next-line playwright/no-force-option -- element obscured by overlay
     await adminPage.getByTestId('teams-edit-save-btn').click({ force: true });
 
     await userProfileResponse;
@@ -265,7 +264,7 @@ test.describe('User with different Roles', () => {
 
     await searchPromise;
 
-    await adminPage.waitForSelector('.domain-custom-dropdown-class', {
+    await adminPage.locator('.domain-custom-dropdown-class').waitFor({
       state: 'visible',
     });
 
@@ -295,7 +294,7 @@ test.describe('User with different Roles', () => {
     await adminPage.locator('.custom-domain-edit-select').click();
 
     // Wait for domain tree to load
-    await adminPage.waitForSelector('.domain-custom-dropdown-class', {
+    await adminPage.locator('.domain-custom-dropdown-class').waitFor({
       state: 'visible',
     });
 
@@ -330,7 +329,7 @@ test.describe('User with different Roles', () => {
       .click();
 
     // Click save button to assign domain
-    let updateUserResponse = adminPage.waitForResponse(
+    const assignDomainResponse = adminPage.waitForResponse(
       (response) =>
         response.url().includes('/api/v1/users/') &&
         response.request().method() === 'PATCH'
@@ -338,9 +337,10 @@ test.describe('User with different Roles', () => {
 
     await adminPage
       .getByTestId('user-profile-domain-edit-cancel')
+      // eslint-disable-next-line playwright/no-force-option -- element obscured by overlay
       .click({ force: true });
 
-    await updateUserResponse;
+    await assignDomainResponse;
 
     // Verify domain is assigned and visible in user profile
     await expect(
@@ -365,7 +365,7 @@ test.describe('User with different Roles', () => {
     await adminPage.locator('.custom-domain-edit-select').click();
 
     // Wait for domain tree to load
-    await adminPage.waitForSelector('.domain-custom-dropdown-class', {
+    await adminPage.locator('.domain-custom-dropdown-class').waitFor({
       state: 'visible',
     });
 
@@ -400,7 +400,7 @@ test.describe('User with different Roles', () => {
       .click();
 
     // Click save button to remove domain
-    updateUserResponse = adminPage.waitForResponse(
+    const removeDomainResponse = adminPage.waitForResponse(
       (response) =>
         response.url().includes('/api/v1/users/') &&
         response.request().method() === 'PATCH'
@@ -408,9 +408,10 @@ test.describe('User with different Roles', () => {
 
     await adminPage
       .getByTestId('user-profile-domain-edit-cancel')
+      // eslint-disable-next-line playwright/no-force-option -- element obscured by overlay
       .click({ force: true });
 
-    await updateUserResponse;
+    await removeDomainResponse;
 
     // Verify domain is removed
     await expect(
@@ -441,7 +442,7 @@ test.describe('User with different Roles', () => {
     await adminPage.locator('.custom-domain-edit-select').click();
 
     // Wait for domain tree to load
-    await adminPage.waitForSelector('.domain-custom-dropdown-class', {
+    await adminPage.locator('.domain-custom-dropdown-class').waitFor({
       state: 'visible',
     });
 
@@ -503,7 +504,7 @@ test.describe('User with different Roles', () => {
       adminPage.getByTestId('profile-edit-roles-select')
     ).toBeVisible();
 
-    await adminPage.waitForSelector('.ant-select-dropdown', {
+    await adminPage.locator('.ant-select-dropdown').waitFor({
       state: 'visible',
     });
 
@@ -531,7 +532,7 @@ test.describe('User with different Roles', () => {
 
     await userPage.click('[data-testid="user-profile-manage-btn"]');
     await userPage.click('[data-testid="edit-displayname"]');
-    await userPage.waitForSelector('[role="dialog"].ant-modal', {
+    await userPage.locator('[role="dialog"].ant-modal').waitFor({
       state: 'visible',
     });
     await userPage.fill(

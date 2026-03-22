@@ -419,6 +419,7 @@ test.describe('Right Panel Test Suite', () => {
             schema,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('schema'),
               `Schema tab not available for ${entityType}`
@@ -467,15 +468,14 @@ test.describe('Right Panel Test Suite', () => {
 
               if (firstField && secondField) {
                 // 1. Search for first field
-                let searchRes;
-                if (usesServerSideSearch) {
-                  searchRes = adminPage.waitForResponse(
-                    (res) =>
-                      res.url().includes('columns/search?offset=') &&
-                      res.url().includes('q=') &&
-                      res.status() === 200
-                  );
-                }
+                const searchRes = usesServerSideSearch
+                  ? adminPage.waitForResponse(
+                      (res) =>
+                        res.url().includes('columns/search?offset=') &&
+                        res.url().includes('q=') &&
+                        res.status() === 200
+                    )
+                  : undefined;
                 await schema.searchFor(firstField);
                 if (searchRes) await searchRes;
 
@@ -483,14 +483,13 @@ test.describe('Right Panel Test Suite', () => {
                 await schema.shouldNotShowFieldByName(secondField);
 
                 // 2. Clear search
-                let clearRes;
-                if (usesServerSideSearch) {
-                  clearRes = adminPage.waitForResponse(
-                    (res) =>
-                      res.url().includes('/columns?offset=') &&
-                      res.status() === 200
-                  );
-                }
+                const clearRes = usesServerSideSearch
+                  ? adminPage.waitForResponse(
+                      (res) =>
+                        res.url().includes('/columns?offset=') &&
+                        res.status() === 200
+                    )
+                  : undefined;
                 await schema.clearSearch();
                 if (clearRes) await clearRes;
 
@@ -498,15 +497,14 @@ test.describe('Right Panel Test Suite', () => {
                 await schema.shouldShowFieldByName(secondField);
 
                 // 3. Search for non-existent field
-                let noMatchRes;
-                if (usesServerSideSearch) {
-                  noMatchRes = adminPage.waitForResponse(
-                    (res) =>
-                      res.url().includes('columns/search?offset=') &&
-                      res.url().includes('q=') &&
-                      res.status() === 200
-                  );
-                }
+                const noMatchRes = usesServerSideSearch
+                  ? adminPage.waitForResponse(
+                      (res) =>
+                        res.url().includes('columns/search?offset=') &&
+                        res.url().includes('q=') &&
+                        res.status() === 200
+                    )
+                  : undefined;
                 await schema.searchFor('zzz_no_match_xyz');
                 if (noMatchRes) await noMatchRes;
 
@@ -545,6 +543,7 @@ test.describe('Right Panel Test Suite', () => {
             lineage,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('lineage'),
               `Lineage tab not available for ${entityType}`
@@ -569,6 +568,7 @@ test.describe('Right Panel Test Suite', () => {
             lineage,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('lineage'),
               `Lineage tab not available for ${entityType}`
@@ -686,6 +686,7 @@ test.describe('Right Panel Test Suite', () => {
             dataQuality,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('data quality'),
               `Data Quality tab not available for ${entityType}`
@@ -710,6 +711,7 @@ test.describe('Right Panel Test Suite', () => {
             dataQuality,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('data quality'),
               `Data Quality tab not available for ${entityType}`
@@ -736,6 +738,7 @@ test.describe('Right Panel Test Suite', () => {
             dataQuality,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('data quality'),
               `Data Quality tab not available for ${entityType}`
@@ -1031,6 +1034,7 @@ test.describe('Right Panel Test Suite', () => {
             customProperties,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('custom property'),
               `Custom Property tab not available for ${entityType}`
@@ -1054,6 +1058,7 @@ test.describe('Right Panel Test Suite', () => {
             customProperties,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('custom property'),
               `Custom Property tab not available for ${entityType}`
@@ -1082,6 +1087,7 @@ test.describe('Right Panel Test Suite', () => {
             customProperties,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('custom property'),
               `Custom Property tab not available for ${entityType}`
@@ -1111,6 +1117,7 @@ test.describe('Right Panel Test Suite', () => {
             customProperties,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('custom property'),
               `Custom Property tab not available for ${entityType}`
@@ -1137,6 +1144,7 @@ test.describe('Right Panel Test Suite', () => {
             }
           });
           // TODO: Remove skip once the we have search support for custom properties to avoid flakiness
+          // eslint-disable-next-line playwright/no-skipped-test -- requires search support for custom properties
           test.skip(`Should show no results for invalid search for ${entityType}`, async ({
             adminPage,
             rightPanel,
@@ -1169,6 +1177,7 @@ test.describe('Right Panel Test Suite', () => {
             customProperties,
           }) => {
             rightPanel.setEntityConfig(entityInstance);
+            // eslint-disable-next-line playwright/no-skipped-test -- conditional skip based on entity type
             test.skip(
               !rightPanel.isTabAvailable('custom property'),
               `Custom Property tab not available for ${entityType}`
@@ -1429,12 +1438,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1458,12 +1466,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1486,12 +1493,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1512,12 +1518,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1538,12 +1543,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1564,12 +1568,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1612,10 +1615,9 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataStewardPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              { state: 'visible' }
-            );
+            await dataStewardPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({ state: 'visible' });
 
             const rightPanelDS = new RightPanelPageObject(dataStewardPage);
             rightPanelDS.setEntityConfig(entityInstance);
@@ -1692,12 +1694,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1721,12 +1722,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1747,12 +1747,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1773,12 +1772,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1799,12 +1797,11 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              {
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({
                 state: 'visible',
-              }
-            );
+              });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1851,10 +1848,9 @@ test.describe('Right Panel Test Suite', () => {
               entityInstance.endpoint,
               fqn
             );
-            await dataConsumerPage.waitForSelector(
-              '[data-testid="entity-summary-panel-container"]',
-              { state: 'visible' }
-            );
+            await dataConsumerPage
+              .getByTestId('entity-summary-panel-container')
+              .waitFor({ state: 'visible' });
 
             const rightPanelDC = new RightPanelPageObject(dataConsumerPage);
             rightPanelDC.setEntityConfig(entityInstance);
@@ -1892,10 +1888,9 @@ test.describe('Right Panel Test Suite', () => {
           dcOwnerTestTable.endpoint,
           fqn
         );
-        await adminPage.waitForSelector(
-          '[data-testid="entity-summary-panel-container"]',
-          { state: 'visible' }
-        );
+        await adminPage
+          .getByTestId('entity-summary-panel-container')
+          .waitFor({ state: 'visible' });
         const adminRightPanel = new RightPanelPageObject(adminPage);
         adminRightPanel.setEntityConfig(dcOwnerTestTable);
         const adminOverview = new OverviewPageObject(adminRightPanel);
@@ -1913,10 +1908,9 @@ test.describe('Right Panel Test Suite', () => {
           dcOwnerTestTable.endpoint,
           fqn
         );
-        await dataConsumerPage.waitForSelector(
-          '[data-testid="entity-summary-panel-container"]',
-          { state: 'visible' }
-        );
+        await dataConsumerPage
+          .getByTestId('entity-summary-panel-container')
+          .waitFor({ state: 'visible' });
         const dcSummaryPanel = dataConsumerPage.locator(
           '.entity-summary-panel-container'
         );
@@ -2519,7 +2513,6 @@ test.describe('Right Panel Test Suite', () => {
             columnNameTestId: 'column-name',
             entityType: 'table',
           });
-
 
           expect(forbiddenUrls).toHaveLength(0);
         } finally {
